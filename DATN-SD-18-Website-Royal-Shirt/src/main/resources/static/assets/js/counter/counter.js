@@ -1002,7 +1002,7 @@ function getFirstProductPage(orderId) {
   const thisOrder = document.getElementById(`hoaDon${orderId}`);
   var tbody = thisOrder.querySelector("#cartTableProduct tbody");
 
-  fetch("/admin/counter/productDetails", {
+  fetch("/admin/rest/product-detail", {
     method: "GET",
   })
     .then((res) => res.json())
@@ -1010,84 +1010,19 @@ function getFirstProductPage(orderId) {
       data.forEach(function (product) {
         var row = document.createElement("tr");
         var cells = [
-          `<img src="${
-            product.firstImage || defaultImage
-          }" class="image-fluid" style="height: 60px; max-width : 60px;">`,
+            // anh (minh ko co sua thanh id)
+            product.id,
           `
           <div class="d-flex">
-          <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop${
-            product.id
-          }">
-          <i class="fas fa-eye fa-xs"></i>
-        </button>
-        <div class="modal fade" id="staticBackdrop${
-          product.id
-        }" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel" ${
-                    product.idProduct?.name ?? ""
-                  }>
-                    ${product.idProduct?.name ?? ""}</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <p><strong>name :</strong>
-                    <span>${product.name}</span>
-                  </p>
-                  <p><strong>price :</strong>
-                    <span> ${product.price.toLocaleString("it-IT", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                    </span>
-                  </p>
-                  </p>
-                  <p><strong>quantity :</strong>
-                    <span>${product.quantity}</span>
-                  </p>
-                  <p><strong>Product :</strong>
-                    <span>${product.idProduct?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Pattern :</strong>
-                    <span>${product.idPattern?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Color :</strong>
-                    <span>${product.idSize?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Origin :</strong>
-                    <span>${product.idProduct?.idOrigin?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Brand :</strong>
-                    <span>${product.idProduct?.idBrand?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Material :</strong>
-                    <span>${product.idProduct?.idMaterial?.name ?? ""}</span>
-                  </p>
-                  <p><strong>Styles :</strong>
-                    <span>${product.idProduct?.idStyles?.name ?? ""}</span>
-                  </p>
-                  <p><strong>description :</strong>
-                    <span>${product.description}</span>
-                  </p>
-                </div>
-                <div class=" modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
           <button type="button" class="btn btn-success  mx-1"  onclick="addProductIntoOrder(${orderId},${
             product.id
           })"><i class="far fa-plus"></i></button>
           </div>`,
-          product.name,
+          product.product.name,
           formatToVND(product.price),
           product.quantity,
-          product.idPattern.name,
-          product.idSize.name,
+            product.size.name,
+            product.color.name
         ];
         cells.forEach(function (cellContent) {
           var cell = document.createElement("td");
@@ -1150,11 +1085,8 @@ function createProductRow(product, idorderdetail) {
   newProductRow.innerHTML = `
 
         <td>
-        <img src="${
-          product.firstImage || defaultImage
-        }" class="image-fluid" style="height: 60px; max-width : 60px;     float: left;
-        "><strong>Tên:</strong> ${product.name} <strong>Hoa văn:</strong> ${
-    product.idPattern?.name ?? ""
+        <strong>Tên:</strong> ${product.product.name} <strong>Kích thước</strong> ${
+    product.size?.name ?? ""
   } </td>
         <td>${formatToVND(product.price)}</td>
         <td>
@@ -1840,7 +1772,7 @@ function getStatusBadge(status) {
 }
 async function getProductDetails(id) {
   try {
-    const response = await fetch(`/admin/counter/productDetails/${id}`);
+    const response = await fetch(`/admin/rest/product-detail/${id}`);
     const data = response.json();
     return data;
   } catch (error) {
@@ -2185,11 +2117,10 @@ async function buildFormData(formId) {
         });
         formData.productViews.push({
           id: product.id,
-          name: product.name,
+          name: product.product.name,
           price: product.price,
           totalprice: product.price * productQuantity,
           quantity: productQuantity,
-          firstImage: product.firstImage,
         });
       }
     } catch (error) {
