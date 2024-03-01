@@ -118,8 +118,8 @@ function formInOrder(id) {
                                                       <th>Tên sản phẩm</th>
                                                       <th>Giá</th>
                                                       <th>Số lượng</th>
-                                                      <th>Hoa văn</th>
                                                       <th>Kích thước</th>
+                                                      <th>Màu sắc</th>
                                                   </tr>
                                               </thead>
                                               <tbody></tbody>
@@ -984,7 +984,7 @@ function resetServiceShip(orderId) {
 function fillAllEmployee(orderId) {
   const thisOrder = document.getElementById(`hoaDon${orderId}`);
   var select = thisOrder.querySelector('select[name="employee"]');
-  fetch("/admin/counter/customers", {
+  fetch("/admin/rest/staffs", {
     method: "GET",
   })
     .then((res) => res.json())
