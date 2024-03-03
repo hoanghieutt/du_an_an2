@@ -1,6 +1,7 @@
 package com.poly.datn.sd18.service.impl;
 
 import com.poly.datn.sd18.entity.Customer;
+import com.poly.datn.sd18.exceptions.DataNotFoundException;
 import com.poly.datn.sd18.repository.CustomerRepository;
 import com.poly.datn.sd18.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,6 +22,12 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> searchEmployees(String searchText) {
         searchText = searchText.trim().toLowerCase();
         return customerRepository.searchByText(searchText);
+    }
+
+    @Override
+    public Customer getCustomer(Integer customerId) throws DataNotFoundException {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new DataNotFoundException("Không tìm thấy khách hàng"));
     }
 //    public Customer getCustomerByAccount(Integer accountId) {
 //        return customerRepository.findByAccountId(accountId)
