@@ -1,5 +1,6 @@
 // 90 %
 // globle Variable
+
 const defaultImage =
   "https://res.cloudinary.com/da30qcqmf/image/upload/v1699778968/No-Image-Placeholder.svg_jlyb5v.png";
 const token = "234a71c7-7b2c-11ee-af43-6ead57e9219a";
