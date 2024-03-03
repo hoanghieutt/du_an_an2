@@ -1263,6 +1263,7 @@ async function handleOrderSubmit(event) {
   formData.fullAddress = form.querySelector("#FullAddress").value;
   formData.specificAddress = form.querySelector("input#address").value;
   formData.note = form.querySelector("textarea#note").value;
+  console.log(formData);
 
   resetErrorElement(form.querySelector("#tenKhachHang"));
   resetErrorElement(form.querySelector("#soDienThoai"));

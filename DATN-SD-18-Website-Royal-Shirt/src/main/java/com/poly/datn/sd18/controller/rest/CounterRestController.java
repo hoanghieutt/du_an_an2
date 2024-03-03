@@ -1,16 +1,23 @@
 package com.poly.datn.sd18.controller.rest;
 
+import com.poly.datn.sd18.entity.Customer;
+import com.poly.datn.sd18.service.CustomerService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/admin/counter")
+@AllArgsConstructor
 public class CounterRestController {
+
+
+    CustomerService customerService;
+
     @PostMapping("/add-bill")
     public ResponseEntity<?> addBill() {
         return null;
@@ -24,5 +31,9 @@ public class CounterRestController {
     @PostMapping("/checkout")
     public ResponseEntity<?> checkOut() {
         return null;
+    }
+    @GetMapping("customers/search")
+    public ResponseEntity<List<Customer>> getAllCustomer(@RequestParam("searchtext") String searchtext) {
+        return ResponseEntity.ok().body(customerService.searchEmployees(searchtext));
     }
 }
