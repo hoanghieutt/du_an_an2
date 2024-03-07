@@ -1038,6 +1038,7 @@ function getFirstProductPage(orderId) {
 //load data end
 // add san pham in to order
 async function addProductIntoOrder(idorderdetail, id) {
+console.log(idorderdetail,id);
   const form = document.getElementById(`hoaDon${idorderdetail}`);
   try {
     const product = await getProductDetails(id);
@@ -1088,7 +1089,8 @@ function createProductRow(product, idorderdetail) {
         <td>
         <strong>Tên:</strong> ${product.product.name} <strong>Kích thước</strong> ${
     product.size?.name ?? ""
-  } </td>
+  }
+  </td>
         <td>${formatToVND(product.price)}</td>
         <td>
         <div class="d-flex w-100">
