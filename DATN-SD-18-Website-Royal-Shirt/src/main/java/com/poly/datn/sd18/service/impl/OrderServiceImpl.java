@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
             newOrder.setCustomer(this.getCustomerIfEmpty());
         }
         List<OrderDetail> orderDetails = new ArrayList<>();
-        orderRepository.save(newOrder);
+                orderRepository.save(newOrder);
         for (var product : orderCounterRequest.getProducts()) {
             orderDetails.add(orderDetailRepository.save(OrderDetail.builder()
                     .order(newOrder)
