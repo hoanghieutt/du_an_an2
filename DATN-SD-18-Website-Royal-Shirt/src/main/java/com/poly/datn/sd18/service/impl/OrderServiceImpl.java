@@ -11,7 +11,6 @@ import com.poly.datn.sd18.requests.OrderCounterRequest;
 import com.poly.datn.sd18.responses.OrderResponse;
 import com.poly.datn.sd18.service.OrderService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -30,8 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final StaffRepository staffRepository;
     private final ProductDetailRepository productDetailRepository;
     private final OrderDetailRepository orderDetailRepository;
-    
-
+    private final ProductDetailRepository productDetailRepository;
 
 
     @Override
@@ -72,8 +70,6 @@ public class OrderServiceImpl implements OrderService {
         List<ProductDetail> productDetails = new ArrayList<>();
 
         for (var pro : orderCounterRequest.getProducts()){
-
-
             Optional<ProductDetail> productDetail = productDetailRepository.findById(pro.getId());
             if (productDetail.isPresent()){
                 ProductDetail exitProductDetail = productDetail.get();
@@ -89,8 +85,6 @@ public class OrderServiceImpl implements OrderService {
 //                        .build()));
 
             }
-
-
 
         }
 
