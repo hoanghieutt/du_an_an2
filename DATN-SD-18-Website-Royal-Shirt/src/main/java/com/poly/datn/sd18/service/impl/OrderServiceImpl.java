@@ -30,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final StaffRepository staffRepository;
     private final ProductDetailRepository productDetailRepository;
     private final OrderDetailRepository orderDetailRepository;
+    
 
 
 
@@ -72,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (var pro : orderCounterRequest.getProducts()){
 
+
             Optional<ProductDetail> productDetail = productDetailRepository.findById(pro.getId());
             if (productDetail.isPresent()){
                 ProductDetail exitProductDetail = productDetail.get();
@@ -87,6 +89,7 @@ public class OrderServiceImpl implements OrderService {
 //                        .build()));
 
             }
+
 
 
         }
