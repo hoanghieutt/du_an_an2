@@ -3,18 +3,21 @@ package com.poly.datn.sd18.service.impl;
 import com.poly.datn.sd18.entity.Customer;
 import com.poly.datn.sd18.entity.Order;
 import com.poly.datn.sd18.entity.OrderDetail;
+import com.poly.datn.sd18.entity.ProductDetail;
 import com.poly.datn.sd18.exceptions.DataNotFoundException;
 import com.poly.datn.sd18.repository.*;
 import com.poly.datn.sd18.requests.OrderCounterRequest;
 import com.poly.datn.sd18.responses.OrderResponse;
 import com.poly.datn.sd18.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -26,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final StaffRepository staffRepository;
     private final ProductDetailRepository productDetailRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final ProductDetailRepository productDetailRepository;
 
     @Override
     public OrderResponse createOrder(OrderCounterRequest orderCounterRequest) throws DataNotFoundException {
@@ -48,8 +52,10 @@ public class OrderServiceImpl implements OrderService {
         } else {
             newOrder.setCustomer(this.getCustomerIfEmpty());
         }
+
         List<OrderDetail> orderDetails = new ArrayList<>();
                 orderRepository.save(newOrder);
+
         for (var product : orderCounterRequest.getProducts()) {
             orderDetails.add(orderDetailRepository.save(OrderDetail.builder()
                     .order(newOrder)
@@ -59,11 +65,22 @@ public class OrderServiceImpl implements OrderService {
                     .price(product.getPrice())
                     .build()));
         }
+
+        List<ProductDetail> productDetails = new ArrayList<>();
+
+        for (var pro : orderCounterRequest.getProducts()){
+            productDetails.add(productDetailRepository.save(ProductDetail.builder()
+                          
+                    .build()));
+
+        }
+
         return OrderResponse.builder()
                 .order(newOrder)
                 .orderDetails(orderDetails)
                 .build();
     }
+
 
     @Override
     public OrderResponse getBill(Integer orderId) throws DataNotFoundException {
