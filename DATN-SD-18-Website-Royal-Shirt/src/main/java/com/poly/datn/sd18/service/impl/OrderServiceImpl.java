@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailRepository orderDetailRepository;
 
 
+
     @Override
     public OrderResponse createOrder(OrderCounterRequest orderCounterRequest) throws DataNotFoundException {
         Order newOrder = Order.builder()
@@ -70,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
         List<ProductDetail> productDetails = new ArrayList<>();
 
         for (var pro : orderCounterRequest.getProducts()){
+
             Optional<ProductDetail> productDetail = productDetailRepository.findById(pro.getId());
             if (productDetail.isPresent()){
                 ProductDetail exitProductDetail = productDetail.get();
@@ -85,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
 //                        .build()));
 
             }
+
 
         }
 
