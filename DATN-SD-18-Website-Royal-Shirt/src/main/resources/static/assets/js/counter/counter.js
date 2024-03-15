@@ -1518,13 +1518,14 @@ function printBill(id) {
     .then((response) => {
       const billData = response.data;
       console.log(billData);
-      $("#bill #billcode").text(billData.order.id);
+      $("#bill #hoadoncode").text(billData.order.id);
       $("#bill #customername").text(billData.order.username);
       $("#bill #phonenumber").text(billData.order.phone);
       $("#bill #fulladdress").text(billData.order.address);
       // Update employee information
       $("#bill #employename").text(billData.order.staff?.name);
       $("#bill #orderstatus").html(getStatusBadge(billData.order.status)); // Assuming orderstatus is a property in your billData
+      $("#bill #ordertype").text("tại quầy");
       // Assuming ordertype is a property in your billData
       // if (billData.loaiDon === 0) {
       //   $("#bill #ordertype").text("tại quầy");
@@ -1538,7 +1539,7 @@ function printBill(id) {
         const row = `<tr>
                   <th scope="row">${index + 1}</th>
                   <td>${product.productDetail.product.name}</td>
-                  <td>${product.productDetail.quantity}</td>
+                  <td>${product.quantity}</td>
                   <td>${formatToVND(product.productDetail.price)}</td>
                   <td>${formatToVND(
                     product.quantity * product.productDetail.price
